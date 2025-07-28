@@ -6,26 +6,26 @@ class Player(CircleShape):
     def __init__(self, x, y, radius):
         super().__init__(x, y, radius)
         self.rotation = 0
-
+        
     def draw(self, screen):
         self.screen = screen
         pygame.draw.polygon(screen,"white",self.triangle(),2)
         
     #    return super().draw(screen)
-    def update(self, dt):
-        self.dt = dt
-        keys = pygame.key.get_pressed()
+    # def update(self, dt):
+    #     self.dt = dt
+    #     keys = pygame.key.get_pressed()
 
     def update(self, dt):
         keys = pygame.key.get_pressed()
 
         if keys[pygame.K_a] or keys[pygame.K_LEFT]:  # left key pressed
             self.rotation += dt * PLAYER_TURN_SPEED * -1  # rotate left
-            print("left")
+        #    print("left")
         
         if keys[pygame.K_d] or keys[pygame.K_RIGHT]:  # right key pressed
             self.rotation += dt * PLAYER_TURN_SPEED  # rotate right
-            print("right")
+        #    print("right")
 
         if keys[pygame.K_w] or keys[pygame.K_UP]: #forward speed pressed (UP)
             self.move(dt)
@@ -35,6 +35,7 @@ class Player(CircleShape):
 
 
     def move(self,dt):
+        #print(f"{dt}th of a second")
         forward = pygame.Vector2(0, 1).rotate(self.rotation)
         self.position += forward * PLAYER_SPEED * dt
    

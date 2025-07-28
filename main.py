@@ -2,6 +2,7 @@
 import pygame
 from constants import SCREEN_WIDTH, SCREEN_HEIGHT, ASTEROID_MIN_RADIUS, ASTEROID_MAX_RADIUS, ASTEROID_KINDS, ASTEROID_SPAWN_RATE
 from player import Player, PLAYER_RADIUS
+from asteroid import Asteroid
 
 # Define the main function for game loop and event handling
 def main():
@@ -21,8 +22,15 @@ def main():
     dt = 0 # delta time
     # Set caption for the display window of the game
     pygame.display.set_caption("DevDocSteroids")
+    updatable = pygame.sprite.Group()
+    drawable = pygame.sprite.Group()
+    asteroid_group = pygame.sprite.Group()
 
+    Asteroid.containers = (asteroid_group,updatable,drawable)
+    Player.containers = (updatable,drawable)
+    
     our_hero = Player(SCREEN_WIDTH/2 ,SCREEN_HEIGHT/2, PLAYER_RADIUS)
+    our_hero.containers = (updatable, drawable)
 
     # Start main game loop that runs until user quits the game
     while True:
@@ -31,11 +39,18 @@ def main():
             if event.type == pygame.QUIT:  # If user closes the window, quit the game and return
                 pygame.quit()
                 return
+        # Control the frame rate of the game loop to run at desired speed (60 fps)
+        dt = clock.tick(60)/1000
 
         # Fill the display surface with black color to clear previous frame's drawing
         screen.fill((0, 0, 0))
-        our_hero.update(dt)
-        our_hero.draw(screen)
+        #our_hero.update(dt)
+        updatable.update(dt)
+
+        for draw in drawable:
+            draw.draw(screen)
+        #our_hero.draw(screen)
+
 
         # Update the display surface by flipping it (double buffering)
         pygame.display.flip()
