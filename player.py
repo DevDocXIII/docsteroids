@@ -1,6 +1,6 @@
 import pygame
 from circleshape import CircleShape
-from constants import PLAYER_RADIUS, PLAYER_TURN_SPEED, PLAYER_SPEED
+from constants import PLAYER_RADIUS, PLAYER_TURN_SPEED, PLAYER_SPEED, PLAYER_SHOOT_SPEED, SHOT_RADIUS
 
 class Player(CircleShape):
     def __init__(self, x, y, radius):
@@ -30,6 +30,18 @@ class Player(CircleShape):
             
         if keys[pygame.K_s] or keys[pygame.K_DOWN]: #backward speed pressed (down)
             self.move(dt*-1)
+        
+        if keys[pygame.K_SPACE]: # space bar pressed to fire
+            print("Shot Fired!!!")
+            self.shoot(dt)        
+    
+    def shoot (self, dt):
+        shot = Shot(self.position.x, self.position.y, SHOT_RADIUS, self.rotation) #create a new shot at the player's position
+        shot.velocity = pygame.Vector2 (0, 1).rotate(shot.rotation) * PLAYER_SHOOT_SPEED
+        pygame.draw.circle(self.screen,(255, 255, 255),(int(self.position.x),int(self.position.y)),SHOT_RADIUS,2)
+        #self.velocity = pygame.Vector2 (0, 1).rotate(self.rotation) * PLAYER_SHOOT_SPEED #update velocity based on rotation
+        #self.move(dt) #move the shot
+
 
     def move(self,dt):
         #print(f"{dt}th of a second")
@@ -44,3 +56,25 @@ class Player(CircleShape):
         c = self.position - forward * self.radius + right
         #print(f"A:{a} B:{b} C:{c}")
         return [a, b, c]
+    
+class Shot (CircleShape): #player shot
+    def __init__(self, x, y, radius, rotation): #rotation is the direction of the shot
+        super().__init__(x, y, radius)
+        self.rotation = rotation # Store the initial rotation
+        self.velocity = pygame.Vector2 (0, 1).rotate(rotation) * PLAYER_SHOOT_SPEED
+                
+    def draw(self,screen):
+        pygame.draw.circle(screen,(255, 255, 255),(int(self.position.x),int(self.position.y)),SHOT_RADIUS,2)
+        
+    def update(self, dt):
+        self.velocity = pygame.Vector2 (0, 1).rotate(self.rotation) * PLAYER_SHOOT_SPEED
+        self.position += self.velocity * dt
+
+    def move (self,dt): #move the shot
+        self.position += self.velocity * dt #update position based on velocity
+
+        #self.screen = screen #needed to draw the shot
+        #self.position += self.velocity * dt
+
+            
+                   
