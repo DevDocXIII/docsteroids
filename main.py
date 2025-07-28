@@ -1,6 +1,7 @@
 # Import necessary modules from pygame and constants module
 import pygame
 from constants import SCREEN_WIDTH, SCREEN_HEIGHT, ASTEROID_MIN_RADIUS, ASTEROID_MAX_RADIUS, ASTEROID_KINDS, ASTEROID_SPAWN_RATE
+from player import Player, PLAYER_RADIUS
 
 # Define the main function for game loop and event handling
 def main():
@@ -17,9 +18,11 @@ def main():
 
     # Create a clock object to control the frame rate of the game loop
     clock = pygame.time.Clock()
-
+    dt = 0 # delta time
     # Set caption for the display window of the game
     pygame.display.set_caption("DevDocSteroids")
+
+    our_hero = Player(SCREEN_WIDTH/2 ,SCREEN_HEIGHT/2, PLAYER_RADIUS)
 
     # Start main game loop that runs until user quits the game
     while True:
@@ -31,13 +34,15 @@ def main():
 
         # Fill the display surface with black color to clear previous frame's drawing
         screen.fill((0, 0, 0))
-        
+        our_hero.draw(screen)
+
         # Update the display surface by flipping it (double buffering)
         pygame.display.flip()
 
         # Control the frame rate of the game loop to run at desired speed (60 fps)
-        clock.tick(60)
+        dt = clock.tick(60)
 
-# Check if script is being run directly, call main function to start the game
+
+# Check if script is being run directly, call main function to start the gamel
 if __name__ == "__main__":
     main()
