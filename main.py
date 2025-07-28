@@ -34,6 +34,7 @@ def main():
 
         # Fill the display surface with black color to clear previous frame's drawing
         screen.fill((0, 0, 0))
+        our_hero.update(dt)
         our_hero.draw(screen)
 
         # Update the display surface by flipping it (double buffering)
