@@ -9,7 +9,7 @@ class Player(CircleShape):
         
     def draw(self, screen):
         self.screen = screen
-        pygame.draw.polygon(screen,"white",self.triangle(),2)
+        pygame.draw.polygon(screen,(255,255,255),self.triangle(),2)
         
     #    return super().draw(screen)
     # def update(self, dt):

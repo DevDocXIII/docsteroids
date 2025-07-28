@@ -3,6 +3,7 @@ import pygame
 from constants import SCREEN_WIDTH, SCREEN_HEIGHT, ASTEROID_MIN_RADIUS, ASTEROID_MAX_RADIUS, ASTEROID_KINDS, ASTEROID_SPAWN_RATE
 from player import Player, PLAYER_RADIUS
 from asteroid import Asteroid
+from asteroidfield import AsteroidField
 
 # Define the main function for game loop and event handling
 def main():
@@ -11,7 +12,7 @@ def main():
 
     # Create a display surface with specified screen width and height
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))    
-
+    
     # Print initial game information (screen width, height) to the console
     print("Starting Asteroids!")
     print(f"Screen width: {1280}") 
@@ -27,10 +28,12 @@ def main():
     asteroid_group = pygame.sprite.Group()
 
     Asteroid.containers = (asteroid_group,updatable,drawable)
+    AsteroidField.containers = (updatable,)
     Player.containers = (updatable,drawable)
-    
+
+    asteroid_field = AsteroidField()    
     our_hero = Player(SCREEN_WIDTH/2 ,SCREEN_HEIGHT/2, PLAYER_RADIUS)
-    our_hero.containers = (updatable, drawable)
+    
 
     # Start main game loop that runs until user quits the game
     while True:
@@ -47,8 +50,8 @@ def main():
         #our_hero.update(dt)
         updatable.update(dt)
 
-        for draw in drawable:
-            draw.draw(screen)
+        for sprite in drawable:
+            sprite.draw(screen)
         #our_hero.draw(screen)
 
 
