@@ -5,6 +5,7 @@ build/
 dist/
 wheels/
 *.egg-info
+doctsteroids-workspace.code-workspace
 
 # Virtual environments
 .venv
