@@ -54,6 +54,11 @@ def main():
             sprite.draw(screen)
         #our_hero.draw(screen)
 
+        for asteroid in asteroid_group:
+            if asteroid.collision_detect(our_hero):
+                print("Game over!")
+                pygame.quit()
+                return
 
         # Update the display surface by flipping it (double buffering)
         pygame.display.flip()

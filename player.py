@@ -21,18 +21,15 @@ class Player(CircleShape):
 
         if keys[pygame.K_a] or keys[pygame.K_LEFT]:  # left key pressed
             self.rotation += dt * PLAYER_TURN_SPEED * -1  # rotate left
-        #    print("left")
         
         if keys[pygame.K_d] or keys[pygame.K_RIGHT]:  # right key pressed
             self.rotation += dt * PLAYER_TURN_SPEED  # rotate right
-        #    print("right")
 
         if keys[pygame.K_w] or keys[pygame.K_UP]: #forward speed pressed (UP)
             self.move(dt)
-
+            
         if keys[pygame.K_s] or keys[pygame.K_DOWN]: #backward speed pressed (down)
             self.move(dt*-1)
-
 
     def move(self,dt):
         #print(f"{dt}th of a second")
