@@ -40,8 +40,7 @@ class Player(CircleShape):
         shot.velocity = pygame.Vector2 (0, 1).rotate(shot.rotation) * PLAYER_SHOOT_SPEED
         pygame.draw.circle(self.screen,(255, 255, 255),(int(self.position.x),int(self.position.y)),SHOT_RADIUS,2)
         #self.velocity = pygame.Vector2 (0, 1).rotate(self.rotation) * PLAYER_SHOOT_SPEED #update velocity based on rotation
-        #self.move(dt) #move the shot
-
+        #shot.move(dt) #move the shot    
 
     def move(self,dt):
         #print(f"{dt}th of a second")
