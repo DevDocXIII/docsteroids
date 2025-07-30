@@ -1,11 +1,12 @@
 import pygame
 from circleshape import CircleShape
-from constants import PLAYER_RADIUS, PLAYER_TURN_SPEED, PLAYER_SPEED, PLAYER_SHOOT_SPEED, SHOT_RADIUS
+from constants import PLAYER_RADIUS, PLAYER_TURN_SPEED, PLAYER_SPEED, PLAYER_SHOOT_SPEED, SHOT_RADIUS, PLAYER_SHOOT_COOLDOWN
 
 class Player(CircleShape):
     def __init__(self, x, y, radius):
         super().__init__(x, y, radius)
         self.rotation = 0
+        self.cooldown_timer = 0 # Initialize the timer variable
         
     def draw(self, screen):
         self.screen = screen
@@ -18,7 +19,8 @@ class Player(CircleShape):
 
     def update(self, dt):
         keys = pygame.key.get_pressed()
-
+        self.cooldown_timer -= dt
+        
         if keys[pygame.K_a] or keys[pygame.K_LEFT]:  # left key pressed
             self.rotation += dt * PLAYER_TURN_SPEED * -1  # rotate left
         
@@ -32,16 +34,17 @@ class Player(CircleShape):
             self.move(dt*-1)
         
         if keys[pygame.K_SPACE]: # space bar pressed to fire
-            print("Shot Fired!!!")
-            self.shoot(dt)        
-    
-    def shoot (self, dt):
-        shot = Shot(self.position.x, self.position.y, SHOT_RADIUS, self.rotation) #create a new shot at the player's position
-        shot.velocity = pygame.Vector2 (0, 1).rotate(shot.rotation) * PLAYER_SHOOT_SPEED
-        pygame.draw.circle(self.screen,(255, 255, 255),(int(self.position.x),int(self.position.y)),SHOT_RADIUS,2)
-        #self.velocity = pygame.Vector2 (0, 1).rotate(self.rotation) * PLAYER_SHOOT_SPEED #update velocity based on rotation
-        #shot.move(dt) #move the shot    
+            self.shoot()
 
+    def shoot (self):
+        if self.cooldown_timer > 0:
+           return
+        self.cooldown_timer = PLAYER_SHOOT_COOLDOWN # reset cooldown timer
+        shot = Shot(self.position.x, self.position.y) #create a new shot at the player's position
+        shot.velocity = pygame.Vector2 (0, 1).rotate(self.rotation) * PLAYER_SHOOT_SPEED
+        #pygame.draw.circle(self.screen,(255, 255, 255),(int(self.position.x),int(self.position.y)),SHOT_RADIUS,2)
+
+        
     def move(self,dt):
         #print(f"{dt}th of a second")
         forward = pygame.Vector2(0, 1).rotate(self.rotation)
@@ -57,16 +60,14 @@ class Player(CircleShape):
         return [a, b, c]
     
 class Shot (CircleShape): #player shot
-    def __init__(self, x, y, radius, rotation): #rotation is the direction of the shot
-        super().__init__(x, y, radius)
-        self.rotation = rotation # Store the initial rotation
-        self.velocity = pygame.Vector2 (0, 1).rotate(rotation) * PLAYER_SHOOT_SPEED
+    def __init__(self, x, y):#, radius, rotation): #rotation is the direction of the shot
+        super().__init__(x, y, SHOT_RADIUS)
                 
     def draw(self,screen):
         pygame.draw.circle(screen,(255, 255, 255),(int(self.position.x),int(self.position.y)),SHOT_RADIUS,2)
         
     def update(self, dt):
-        self.velocity = pygame.Vector2 (0, 1).rotate(self.rotation) * PLAYER_SHOOT_SPEED
+        #self.velocity = pygame.Vector2 (0, 1).rotate(self.rotation) * PLAYER_SHOOT_SPEED
         self.position += self.velocity * dt
 
     def move (self,dt): #move the shot
