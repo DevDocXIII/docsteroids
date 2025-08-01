@@ -26,4 +26,5 @@ class CircleShape(pygame.sprite.Sprite):
         if distance <= self.radius + bad_circle.radius:
             return True
         return False
+    
                 

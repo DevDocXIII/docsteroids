@@ -23,17 +23,17 @@ def main():
     dt = 0 # delta time
     # Set caption for the display window of the game
     pygame.display.set_caption("DevDocSteroids")
-    updatable = pygame.sprite.Group()
-    drawable = pygame.sprite.Group()
-    asteroid_group = pygame.sprite.Group()
-    shots = pygame.sprite.Group()
+    updatable = pygame.sprite.Group() # Create a group for all updatable objects in the game
+    drawable = pygame.sprite.Group() # Create a group for all drawable objects in the game
+    asteroid_group = pygame.sprite.Group() # Create a group for all asteroids in the game
+    shots = pygame.sprite.Group() # Create a group for all shots fired by the player
 
-    Asteroid.containers = (asteroid_group,updatable,drawable)
-    AsteroidField.containers = (updatable,)
-    Player.containers = (updatable,drawable)
+    Asteroid.containers = (asteroid_group,updatable,drawable) # Add the asteroid group to the containers of the Asteroid class
+    AsteroidField.containers = (updatable,) # Add the updatable group to the containers of the AsteroidField class
+    Player.containers = (updatable,drawable) # Add the player object to the containers of the Player
     Shot.containers = (shots, updatable, drawable) # Add the shots group to the containers 
     
-    asteroid_field = AsteroidField()    
+    asteroid_field = AsteroidField() # Create an instance of the AsteroidField class    
     our_hero = Player(SCREEN_WIDTH/2 ,SCREEN_HEIGHT/2, PLAYER_RADIUS)
     
 
@@ -61,6 +61,14 @@ def main():
                 print("Game over!")
                 pygame.quit()
                 return
+            
+        for asteroid in asteroid_group:
+            for shot in shots:
+                if asteroid.collision_detect(shot):
+                    shot.kill()  
+                    print("shot killed")
+                    asteroid.split()
+                    print("asteroid killed")
 
         # Update the display surface by flipping it (double buffering)
         pygame.display.flip()
