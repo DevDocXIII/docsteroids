@@ -66,9 +66,9 @@ def main():
             for shot in shots:
                 if asteroid.collision_detect(shot):
                     shot.kill()  
-                    print("shot killed")
+                    #print("shot killed")
                     asteroid.split()
-                    print("asteroid killed")
+                    #print("asteroid killed") 
 
         # Update the display surface by flipping it (double buffering)
         pygame.display.flip()
