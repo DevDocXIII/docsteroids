@@ -14,12 +14,12 @@ def main():
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))    
     
     # Print initial game information (screen width, height) to the console
-    print("Starting Asteroids!")
-    print(f"Screen width: {1280}") 
-    print(f"Screen height: {720}")
+    print("Starting Asteroids!") 
+    print(f"Screen width: {1280}")
+    print(f"Screen height: {720}") 
 
     # Create a clock object to control the frame rate of the game loop
-    clock = pygame.time.Clock()
+    clock = pygame.time.Clock() 
     dt = 0 # delta time
     # Set caption for the display window of the game
     pygame.display.set_caption("DevDocSteroids")
@@ -34,9 +34,8 @@ def main():
     Shot.containers = (shots, updatable, drawable) # Add the shots group to the containers 
     
     asteroid_field = AsteroidField() # Create an instance of the AsteroidField class    
-    our_hero = Player(SCREEN_WIDTH/2 ,SCREEN_HEIGHT/2, PLAYER_RADIUS)
+    our_hero = Player(SCREEN_WIDTH/2 ,SCREEN_HEIGHT/2, PLAYER_RADIUS ) # Create an instance of the Player class at the center of the screen)
     
-
     # Start main game loop that runs until user quits the game
     while True:
         # Event handling loop to process events such as keyboard input, mouse clicks etc.
